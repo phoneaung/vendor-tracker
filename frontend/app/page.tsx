@@ -25,27 +25,10 @@ export default function Home() {
 
   // Load vendors once when the page first renders
   useEffect(() => {
-    let cancelled = false;
-
-    const loadInitialVendors = async () => {
-      try {
-        const data = await getVendors();
-        if (!cancelled) {
-          setVendors(data);
-        }
-      } catch {
-        if (!cancelled) {
-          setError("Failed to load vendors.");
-        }
-      }
-    };
-
-    void loadInitialVendors();
-
-    return () => {
-      cancelled = true;
-    };
+    loadVendors();
   }, []);
+  // The empty [] means this runs only once. Without it, the effect would
+  // run after every render, causing an infinite loop of fetch requests.
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault(); // Prevent the browser from reloading the page on submit
